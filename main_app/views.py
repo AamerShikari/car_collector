@@ -33,25 +33,27 @@ def signup(request):
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
 
+@login_required
 def cars_index(request):
     cars = Car.objects.filter(user=request.user)
     return render(request, 'cars/index.html', {'cars': cars})
 
+@login_required
 def cars_detail(request, car_id):
     car = Car.objects.get(id=car_id)
     return render(request, 'cars/detail.html', {'car': car})
 
-class CarCreate(CreateView):
+class CarCreate(LoginRequiredMixin, CreateView):
   model = Car
   fields =['make','model','year','color']
   def form_valid(self, form):
     form.instance.user = self.request.user  # form.instance is the car
     return super().form_valid(form)
 
-class CarUpdate(UpdateView):
+class CarUpdate(LoginRequiredMixin, UpdateView):
   model = Car
   fields =['make','model','year','color']
   
-class CarDelete(DeleteView):
+class CarDelete(LoginRequiredMixin, DeleteView):
   model = Car
   success_url = '/cars/'
