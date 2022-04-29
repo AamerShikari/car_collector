@@ -9,7 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Car
-
+from django.views.generic.edit import CreateView, UpdateView
 
 # Define the home view
 def home(request):
@@ -40,3 +40,14 @@ def cars_index(request):
 def cars_detail(request, car_id):
     car = Car.objects.get(id=car_id)
     return render(request, 'cars/detail.html', {'car': car})
+
+class CarCreate(CreateView):
+  model = Car
+  fields =['make','model','year','color']
+  def form_valid(self, form):
+    form.instance.user = self.request.user  # form.instance is the car
+    return super().form_valid(form)
+
+class CarUpdate(UpdateView):
+  model = Car
+  fields =['make','model','year','color']
