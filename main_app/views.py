@@ -34,3 +34,6 @@ def signup(request):
 def cars_index(request):
     cars = Car.objects.filter(user=request.user)
     return render(request, 'cars/index.html', {'cars': cars})
+
+def cats_detail(request, cat_id):
+    cat = Cat.objects.get(id=cat_id)
