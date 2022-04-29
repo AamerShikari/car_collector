@@ -13,7 +13,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 # Define the home view
 def home(request):
-  return HttpResponse('<h1>Hello /ᐠ｡‸｡ᐟ\ﾉ</h1>')
+  return render(request, 'index.html')
 
 def about(request):
   return render(request, 'about.html')
@@ -33,14 +33,18 @@ def signup(request):
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
 
+
+@login_required
 def animes_index(request):
     animes = Anime.objects.filter(user=request.user)
     return render(request, 'animes/index.html', {'animes': animes})
-
+  
+@login_required
 def animes_detail(request, anime_id):
     anime = Anime.objects.get(id=anime_id)
     return render(request, 'animes/detail.html', {'anime': anime})
-
+  
+@login_required
 class animeCreate(CreateView):
   model = Anime
   fields =['title','category','language','description']
@@ -48,10 +52,11 @@ class animeCreate(CreateView):
     form.instance.user = self.request.user  # form.instance is the anime
     return super().form_valid(form)
 
-class animeUpdate(UpdateView):
+class animeUpdate(LoginRequiredMixin, UpdateView):
   model = Anime
   fields =['category','language','description']
   
-class animeDelete(DeleteView):
+class animeDelete(LoginRequiredMixin, DeleteView):
   model = Anime
   success_url = '/animes/'
+
