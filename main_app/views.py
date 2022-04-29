@@ -11,7 +11,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Car
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-
 # Define the home view
 def home(request):
   return HttpResponse('<h1>Hello /ᐠ｡‸｡ᐟ\ﾉ</h1>')
@@ -42,6 +41,17 @@ def cars_detail(request, car_id):
     car = Car.objects.get(id=car_id)
     return render(request, 'cars/detail.html', {'car': car})
 
+class CarCreate(CreateView):
+  model = Car
+  fields =['make','model','year','color']
+  def form_valid(self, form):
+    form.instance.user = self.request.user  # form.instance is the car
+    return super().form_valid(form)
+
+class CarUpdate(UpdateView):
+  model = Car
+  fields =['make','model','year','color']
+  
 class CarDelete(DeleteView):
-    model = Car
-    success_url = '/cars/'
+  model = Car
+  success_url = '/cars/'
