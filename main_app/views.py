@@ -34,5 +34,9 @@ def signup(request):
   return render(request, 'registration/signup.html', context)
 
 def cars_index(request):
-    cars = Car.objects.all()
+    cars = Car.objects.filter(user=request.user)
     return render(request, 'cars/index.html', {'cars': cars})
+
+def cars_detail(request, car_id):
+    car = Car.objects.get(id=car_id)
+    return render(request, 'cars/detail.html', {'car': car})
