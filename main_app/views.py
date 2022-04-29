@@ -31,3 +31,6 @@ def signup(request):
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
 
+def cars_index(request):
+    cars = Car.objects.filter(user=request.user)
+    return render(request, 'cars/index.html', {'cars': cars})
