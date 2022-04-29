@@ -9,6 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Car
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 
 # Define the home view
@@ -40,3 +41,7 @@ def cars_index(request):
 def cars_detail(request, car_id):
     car = Car.objects.get(id=car_id)
     return render(request, 'cars/detail.html', {'car': car})
+
+class CarDelete(DeleteView):
+    model = Car
+    success_url = '/cars/'
