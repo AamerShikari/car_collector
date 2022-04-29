@@ -9,7 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Car
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 # Define the home view
 def home(request):
@@ -51,3 +51,7 @@ class CarCreate(CreateView):
 class CarUpdate(UpdateView):
   model = Car
   fields =['make','model','year','color']
+  
+class CarDelete(DeleteView):
+  model = Car
+  success_url = '/cars/'
