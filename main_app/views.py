@@ -8,7 +8,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Car
+from .models import Anime
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 # Define the home view
@@ -33,27 +33,30 @@ def signup(request):
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
 
-@login_required
-def cars_index(request):
-    cars = Car.objects.filter(user=request.user)
-    return render(request, 'cars/index.html', {'cars': cars})
 
 @login_required
-def cars_detail(request, car_id):
-    car = Car.objects.get(id=car_id)
-    return render(request, 'cars/detail.html', {'car': car})
-
-class CarCreate(LoginRequiredMixin, CreateView):
-  model = Car
-  fields =['make','model','year','color']
+def animes_index(request):
+    animes = Anime.objects.filter(user=request.user)
+    return render(request, 'animes/index.html', {'animes': animes})
+  
+@login_required
+def animes_detail(request, anime_id):
+    anime = Anime.objects.get(id=anime_id)
+    return render(request, 'animes/detail.html', {'anime': anime})
+  
+@login_required
+class animeCreate(CreateView):
+  model = Anime
+  fields =['title','category','language','description']
   def form_valid(self, form):
-    form.instance.user = self.request.user  # form.instance is the car
+    form.instance.user = self.request.user  # form.instance is the anime
     return super().form_valid(form)
 
-class CarUpdate(LoginRequiredMixin, UpdateView):
-  model = Car
-  fields =['make','model','year','color']
+class animeUpdate(LoginRequiredMixin, UpdateView):
+  model = Anime
+  fields =['category','language','description']
   
-class CarDelete(LoginRequiredMixin, DeleteView):
-  model = Car
-  success_url = '/cars/'
+class animeDelete(LoginRequiredMixin, DeleteView):
+  model = Anime
+  success_url = '/animes/'
+

@@ -4,12 +4,12 @@ from . import views
 urlpatterns = [
 	path('', views.home, name='home'), #example path
 	path('about/', views.about, name='about'),
-	path('cars/', views.cars_index, name='index'),
-	path('cars/<int:car_id>/', views.cars_detail, name='detail'),
-	path('cars/<int:pk>/delete/', views.CarDelete.as_view(), name='cars_delete'),
+	path('animes/', views.animes_index, name='index'),
+	path('animes/<int:anime_id>/', views.animes_detail, name='detail'),
+	path('animes/<int:pk>/delete/', views.animeDelete.as_view(), name='animes_delete'),
 	path('accounts/', include('django.contrib.auth.urls')),
 	path('accounts/signup/', views.signup, name='signup'),
-	path('cars/create/', views.CarCreate.as_view(), name='cars_create'),
-	path('cars/<int:pk>/update/', views.CarUpdate.as_view(), name='cars_update'),
+	path('animes/create/', views.animeCreate.as_view(), name='animes_create'),
+	path('animes/<int:pk>/update/', views.animeUpdate.as_view(), name='animes_update'),
 
 ]

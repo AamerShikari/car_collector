@@ -5,14 +5,15 @@ from django.urls import reverse
 # from django.urls import reverse
 # Create your models here.
 
-class Car(models.Model):
-    make = models.CharField(max_length=100)
-    model = models.CharField(max_length=250)
-    year = models.IntegerField()
-    color = models.CharField(max_length=100)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+class Anime(models.Model):
+    title = models.CharField(max_length=100)
+    category = models.CharField(max_length=250)
+    language = models.IntegerField()
+    description = models.CharField(max_length=500)
+
+
     def __str__(self):
-        return f"The car {self.make} {self.model} has id of {self.id}"
+        return f"{self.title} is a {self.category}"
 
     def get_absolute_url(self):
-        return reverse('detail', kwargs={'car_id':self.id})
+        return reverse('detail', kwargs={'anime_id':self.id})
